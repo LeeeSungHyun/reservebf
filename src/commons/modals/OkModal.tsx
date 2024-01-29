@@ -11,9 +11,10 @@ import {
 interface OkModalProps {
   open: boolean;
   onClose: () => void;
+  message: string;
 }
 
-const OkModal: React.FC<OkModalProps> = ({ open, onClose }) => {
+const OkModal: React.FC<OkModalProps> = ({ open, onClose, message }) => {
   //url 이동시 사용
   const navigate = useNavigate();
 
@@ -21,7 +22,7 @@ const OkModal: React.FC<OkModalProps> = ({ open, onClose }) => {
     <Dialog open={open} onClose={onClose}>
       <DialogTitle>알 림</DialogTitle>
       <DialogContent>
-        <p>회원가입(추후 파라미터로)에 성공하였습니다.</p>
+        <p>{message}</p>
       </DialogContent>
       <DialogActions>
         <Button onClick={onClose} variant="contained" color="primary">

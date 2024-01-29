@@ -9,12 +9,15 @@ const SignUpContainer: React.FC = () => {
   // 각 입력 필드에 대한 상태(state) 정의
   const [name, setName] = useState("");
   const [id, setId] = useState("");
+  const [idCheck, setIdCheck] = useState(false);
   const [password, setPassword] = useState("");
   const [passwordConfirm, setPasswordConfirm] = useState("");
+  const [passwordsMatch, setPasswordsMatch] = useState(false);
   const [phoneNumber, setPhoneNumber] = useState("");
   const [affiliation, setAffiliation] = useState("");
   const [customAffiliation, setCustomAffiliation] = useState("");
-  const [successModalOpen, setSuccessModalOpen] = useState(false);
+  const [modalOpen, setModalOpen] = useState(false);
+  const [modalMsg, setModalMsg] = useState("");
 
   // 이름 입력 필드 변경 이벤트 핸들러
   const handleNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -24,11 +27,15 @@ const SignUpContainer: React.FC = () => {
   // 아이디 입력 필드 변경 이벤트 핸들러
   const handleIdChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setId(event.target.value);
+
+    // 아이디 입력 변경 하는 순간 중복확인 값 F
+    setIdCheck(false);
   };
 
   // 비밀번호 입력 필드 변경 이벤트 핸들러
   const handlePasswordChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setPassword(event.target.value);
+    setPasswordsMatch(event.target.value === passwordConfirm);
   };
 
   // 비밀번호 확인 입력 필드 변경 이벤트 핸들러
@@ -36,6 +43,7 @@ const SignUpContainer: React.FC = () => {
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
     setPasswordConfirm(event.target.value);
+    setPasswordsMatch(event.target.value === password);
   };
 
   // 전화번호 입력 필드 변경 이벤트 핸들러
@@ -59,29 +67,82 @@ const SignUpContainer: React.FC = () => {
     setCustomAffiliation(event.target.value);
   };
 
+  // 공백 여부를 확인하는 함수
+  const isNotBlank = (value: string) => {
+    return value.trim() !== "";
+  };
+  // state 값들을 검사하여 공백 여부를 확인하는 함수
+  const areFieldsNotBlank = () => {
+    return (
+      isNotBlank(name) &&
+      isNotBlank(id) &&
+      isNotBlank(password) &&
+      isNotBlank(passwordConfirm) &&
+      isNotBlank(phoneNumber) &&
+      isNotBlank(affiliation)
+    );
+  };
+
+  // 유효성검사
+  const validation = () => {
+    if (!idCheck) {
+      setModalMsg("아이디 중복확인을 해주세요");
+      return false;
+    } else if (!passwordsMatch) {
+      setModalMsg("비밀번호 확인이 일치하지 않습니다");
+      return false;
+    } else if (!areFieldsNotBlank()) {
+      setModalMsg("모든 정보를 입력해주세요");
+      return false;
+    } else {
+      setModalMsg(
+        "회원가입이 신청되었습니다. 관리자 승인 후 로그인이 가능합니다."
+      );
+      return true;
+    }
+  };
+
+  const idCheckOnClick = async () => {
+    // DB 계정 조회 후 중복여부 확인
+    // try {
+    //   const response = await SignUpApi.postSignUp({
+    //     params,
+    //     headers: {}, // 헤더가 필요하다면 여기에 추가
+    //   });
+    // } catch (error) {
+    // }
+
+    // 일단 지금은 클릭 시 true로
+    // (추후) if(response.length > 0) {}
+
+    setIdCheck(true);
+  };
+
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     // 페이지 리로드 방지
     event.preventDefault();
+    if (validation()) {
+      const params = {
+        name,
+        memberId: id,
+        password,
+        phone: phoneNumber,
+        team: affiliation,
+      };
 
-    const params = {
-      name,
-      id,
-      password,
-      phoneNumber,
-      affiliation,
-      customAffiliation,
-    };
+      console.log("서버로 보내는 데이터 : " + params);
+      console.log("이름" + params.name);
+      console.log("아이디" + params.memberId);
+      console.log("비번" + params.password);
+      console.log("폰번" + params.phone);
+      console.log("소속" + params.team);
 
-    console.log("서버로 보내는 데이터 : " + params);
-    console.log("이름" + params.name);
-    console.log("아이디" + params.id);
-    console.log("비번" + params.password);
-    console.log("폰번" + params.phoneNumber);
-    console.log("소속" + params.affiliation);
-    console.log("소속없을 시 입력" + params.customAffiliation);
-
-    //모달 open
-    setSuccessModalOpen(true);
+      //모달 open
+      setModalOpen(true);
+    } else {
+      //모달 open
+      setModalOpen(true);
+    }
 
     // try {
     //   // API 호출
@@ -103,9 +164,11 @@ const SignUpContainer: React.FC = () => {
 
   //모달 닫기
   const handleModalClose = () => {
-    setSuccessModalOpen(false);
+    setModalOpen(false);
     // 로그인 페이지로 이동
-    navigate("/signIn"); // signIn 페이지로 이동
+    if (validation()) {
+      navigate("/signIn"); // signIn 페이지로 이동
+    }
   };
 
   return (
@@ -114,10 +177,12 @@ const SignUpContainer: React.FC = () => {
       id={id}
       password={password}
       passwordConfirm={passwordConfirm}
+      passwordsMatch={passwordsMatch}
       phoneNumber={phoneNumber}
       affiliation={affiliation}
       customAffiliation={customAffiliation}
-      successModalOpen={successModalOpen}
+      modalOpen={modalOpen}
+      modalMsg={modalMsg}
       onNameChange={handleNameChange}
       onIdChange={handleIdChange}
       onPasswordChange={handlePasswordChange}
@@ -127,6 +192,8 @@ const SignUpContainer: React.FC = () => {
       onCustomAffiliationChange={handleCustomAffiliationChange}
       handleSubmit={handleSubmit}
       handleModalClose={handleModalClose}
+      idCheck={idCheck}
+      idCheckOnClick={idCheckOnClick}
     />
   );
 };

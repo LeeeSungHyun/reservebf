@@ -2,11 +2,10 @@ import httpUtil from "../utils/http-util";
 
 interface SignUpParams {
   name: string;
-  id: string;
+  memberId: string;
   password: string;
-  phoneNumber: string;
-  affiliation: string;
-  customAffiliation: string;
+  phone: string;
+  team: string;
 }
 
 interface SignUpHeaders {

@@ -40,10 +40,12 @@ export default function SignUp(props: {
   id: string;
   password: string;
   passwordConfirm: string;
+  passwordsMatch: boolean;
   phoneNumber: string;
   affiliation: string;
   customAffiliation: string;
-  successModalOpen: boolean;
+  modalOpen: boolean;
+  modalMsg: string;
   onNameChange: any;
   onIdChange: any;
   onPasswordChange: any;
@@ -53,6 +55,8 @@ export default function SignUp(props: {
   onCustomAffiliationChange: any;
   handleSubmit: any;
   handleModalClose: any;
+  idCheck: boolean;
+  idCheckOnClick: any;
 }) {
   const affiliations = [
     { name: "1교구", value: "1a" },
@@ -67,10 +71,12 @@ export default function SignUp(props: {
     id,
     password,
     passwordConfirm,
+    passwordsMatch,
     phoneNumber,
     affiliation,
     customAffiliation,
-    successModalOpen,
+    modalOpen,
+    modalMsg,
     onNameChange,
     onIdChange,
     onPasswordChange,
@@ -80,6 +86,8 @@ export default function SignUp(props: {
     onCustomAffiliationChange,
     handleSubmit,
     handleModalClose,
+    idCheck,
+    idCheckOnClick,
   } = props;
 
   return (
@@ -131,12 +139,12 @@ export default function SignUp(props: {
               </Grid>
               <Grid item xs={3}>
                 <Button
-                  type="submit"
                   fullWidth
-                  color="secondary"
+                  color={idCheck ? "primary" : "error"} // idCheck 값에 따라 색상 변경
                   variant="contained"
+                  onClick={idCheckOnClick}
                 >
-                  중복확인
+                  {idCheck ? "중복 확인 완료" : "중복확인 필요"}
                 </Button>
               </Grid>
               <Grid item xs={12}>
@@ -161,6 +169,10 @@ export default function SignUp(props: {
                   id="passwordConfirm"
                   autoComplete="new-password"
                   onChange={onPasswordConfirmChange}
+                  error={!passwordsMatch} // 일치하지 않을 때 에러 상태로 설정
+                  helperText={
+                    !passwordsMatch && "비밀번호가 일치하지 않습니다."
+                  }
                 />
               </Grid>
               <Grid item xs={12}>
@@ -222,7 +234,11 @@ export default function SignUp(props: {
           </Grid>
         </Box>
         <Copyright sx={{ mt: 5 }} />
-        <OkModal open={successModalOpen} onClose={handleModalClose} />
+        <OkModal
+          open={modalOpen}
+          onClose={handleModalClose}
+          message={modalMsg}
+        />
       </Container>
     </ThemeProvider>
   );
