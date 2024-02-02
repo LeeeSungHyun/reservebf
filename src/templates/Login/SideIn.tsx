@@ -13,6 +13,7 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
+import OkModal from "../../commons/modals/OkModal";
 
 function Copyright(props: any) {
   return (
@@ -35,15 +36,22 @@ function Copyright(props: any) {
 // TODO remove, this demo shouldn't need to reset the theme.
 const defaultTheme = createTheme();
 
-export default function SignIn() {
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      id: data.get("id"),
-      password: data.get("password"),
-    });
-  };
+export default function SignIn(props: {
+  modalOpen: boolean;
+  modalMsg: string;
+  onIdChange: any;
+  onPasswordChange: any;
+  handleSubmit: any;
+  handleModalClose: any;
+}) {
+  const {
+    modalOpen,
+    modalMsg,
+    onIdChange,
+    onPasswordChange,
+    handleSubmit,
+    handleModalClose,
+  } = props;
 
   return (
     <ThemeProvider theme={defaultTheme}>
@@ -78,6 +86,7 @@ export default function SignIn() {
               name="id"
               autoComplete="id"
               autoFocus
+              onChange={onIdChange}
             />
             <TextField
               margin="normal"
@@ -88,6 +97,7 @@ export default function SignIn() {
               type="password"
               id="password"
               autoComplete="current-password"
+              onChange={onPasswordChange}
             />
             <FormControlLabel
               control={<Checkbox value="remember" color="primary" />}
@@ -116,6 +126,11 @@ export default function SignIn() {
           </Box>
         </Box>
         <Copyright sx={{ mt: 8, mb: 4 }} />
+        <OkModal
+          open={modalOpen}
+          onClose={handleModalClose}
+          message={modalMsg}
+        />
       </Container>
     </ThemeProvider>
   );

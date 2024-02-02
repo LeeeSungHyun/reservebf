@@ -1,8 +1,8 @@
 import { ThemeProvider } from "@mui/material";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import SignInContainer from "./containers/LoginContainer/SignInContainer";
 import SignUpContainer from "./containers/LoginContainer/SignUpContainer";
 import MainContainer from "./containers/MainContainer";
-import SignIn from "./templates/Login/SideIn";
 import theme from "./theme";
 
 function App() {
@@ -12,7 +12,7 @@ function App() {
         <Router>
           <Routes>
             <Route path="/" element={<MainContainer />} />
-            <Route path="/SignIn" element={<SignIn />} />
+            <Route path="/SignIn" element={<SignInContainer />} />
             <Route path="/SignUp" element={<SignUpContainer />} />
           </Routes>
         </Router>

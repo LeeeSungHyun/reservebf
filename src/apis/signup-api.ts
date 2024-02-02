@@ -18,12 +18,33 @@ interface SignUpRequest {
 }
 
 const SignUpApi = {
+  // 로그인 요청
+  async postLogin(
+    memberId: string,
+    password: string,
+    headers: { [key: string]: string }
+  ) {
+    return await httpUtil.post({
+      url: "/member/login",
+      params: { memberId, password },
+      headers,
+    });
+  },
+
+  // 회원 조회(count)
+  async getUser(memberId: string): Promise<any> {
+    return await httpUtil.get({
+      url: "/member/selectCountMember",
+      params: { memberId },
+    });
+  },
+
   // 회원가입 요청
   async postSignUp({ params, headers }: SignUpRequest) {
     return await httpUtil.post({
-      url: "/signUp/create",
-      headers,
+      url: "/member/addMember",
       params,
+      headers,
     });
   },
 

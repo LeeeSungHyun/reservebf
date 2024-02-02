@@ -104,18 +104,27 @@ const SignUpContainer: React.FC = () => {
 
   const idCheckOnClick = async () => {
     // DB 계정 조회 후 중복여부 확인
-    // try {
-    //   const response = await SignUpApi.postSignUp({
-    //     params,
-    //     headers: {}, // 헤더가 필요하다면 여기에 추가
-    //   });
-    // } catch (error) {
-    // }
+    try {
+      if (isNotBlank(id)) {
+        console.log(id);
+        const response = await SignUpApi.getUser(id);
 
-    // 일단 지금은 클릭 시 true로
-    // (추후) if(response.length > 0) {}
-
-    setIdCheck(true);
+        if (response.data.length > 0) {
+          setIdCheck(false);
+          alert("아이디가 존재합니다.");
+        } else {
+          setIdCheck(true);
+          alert("사용 가능한 아이디입니다.");
+        }
+      } else {
+        alert("아이디를 입력해주세요");
+      }
+    } catch (error) {
+      // API 호출 실패 시 예외 처리
+      setIdCheck(false);
+      console.error("회원조회 실패:", error);
+      alert("회원조회 실패 : " + error);
+    }
   };
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -130,12 +139,20 @@ const SignUpContainer: React.FC = () => {
         team: affiliation,
       };
 
-      console.log("서버로 보내는 데이터 : " + params);
-      console.log("이름" + params.name);
-      console.log("아이디" + params.memberId);
-      console.log("비번" + params.password);
-      console.log("폰번" + params.phone);
-      console.log("소속" + params.team);
+      try {
+        // API 호출
+        const response = await SignUpApi.postSignUp({
+          params,
+          headers: {}, // 헤더가 필요하다면 여기에 추가
+        });
+        // API 응답 처리
+        console.log("회원가입 성공:", response);
+        // 원하는 작업 수행...
+      } catch (error) {
+        // API 호출 실패 시 예외 처리
+        console.error("회원가입 실패:", error);
+        // 원하는 작업 수행...
+      }
 
       //모달 open
       setModalOpen(true);
@@ -143,23 +160,6 @@ const SignUpContainer: React.FC = () => {
       //모달 open
       setModalOpen(true);
     }
-
-    // try {
-    //   // API 호출
-    //   const response = await SignUpApi.postSignUp({
-    //     params,
-    //     headers: {}, // 헤더가 필요하다면 여기에 추가
-    //   });
-    //   debugger;
-
-    //   // API 응답 처리
-    //   console.log("회원가입 성공:", response);
-    //   // 원하는 작업 수행...
-    // } catch (error) {
-    //   // API 호출 실패 시 예외 처리
-    //   console.error("회원가입 실패:", error);
-    //   // 원하는 작업 수행...
-    // }
   };
 
   //모달 닫기
