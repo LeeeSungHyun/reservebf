@@ -19,32 +19,29 @@ interface SignUpRequest {
 
 const SignUpApi = {
   // 로그인 요청
-  async postLogin(
-    memberId: string,
-    password: string,
-    headers: { [key: string]: string }
-  ) {
+  async postLogin(formData: FormData): Promise<any> {
     return await httpUtil.post({
       url: "/member/login",
-      params: { memberId, password },
-      headers,
+      params: formData,
     });
   },
 
   // 회원 조회(count)
   async getUser(memberId: string): Promise<any> {
+    const formData = new FormData();
+    formData.append("memberId", memberId);
+
     return await httpUtil.get({
       url: "/member/selectCountMember",
-      params: { memberId },
+      params: formData,
     });
   },
 
   // 회원가입 요청
-  async postSignUp({ params, headers }: SignUpRequest) {
+  async postSignUp(formData: FormData): Promise<any> {
     return await httpUtil.post({
       url: "/member/addMember",
-      params,
-      headers,
+      params: formData,
     });
   },
 

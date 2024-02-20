@@ -35,26 +35,20 @@ const SignInContainer: React.FC = () => {
     // 페이지 리로드 방지
     event.preventDefault();
     if (areFieldsNotBlank()) {
-      const params = {
-        memberId: id,
-        password,
-      };
+      const formData = new FormData();
+      formData.append("memberId", id);
+      formData.append("password", password);
 
       try {
         // API 호출
-        const response = await SignUpApi.postLogin(
-          params.memberId,
-          params.password,
-          {}
-        );
-        console.log("회원가입 성공:", response);
+        const response = await SignUpApi.postLogin(formData);
+        console.log("로그인 성공:", response);
         alert("로그인 성공");
       } catch (error) {
-        // API 호출 실패 시 예외 처리
-        console.error("회원가입 실패:", error);
-        // 원하는 작업 수행...
+        // 오류 처리
+        console.error("로그인 실패:", error);
+        alert("로그인 실패");
       }
-      alert("로그인 성공");
     } else {
       setModalMsg("모든 정보를 입력해주세요");
       //모달 open

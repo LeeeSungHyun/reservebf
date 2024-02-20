@@ -131,20 +131,16 @@ const SignUpContainer: React.FC = () => {
     // 페이지 리로드 방지
     event.preventDefault();
     if (validation()) {
-      const params = {
-        name,
-        memberId: id,
-        password,
-        phone: phoneNumber,
-        team: affiliation,
-      };
+      const formData = new FormData();
+      formData.append("name", name);
+      formData.append("memberId", id);
+      formData.append("password", password);
+      formData.append("phone", phoneNumber);
+      formData.append("team", affiliation);
 
       try {
         // API 호출
-        const response = await SignUpApi.postSignUp({
-          params,
-          headers: {}, // 헤더가 필요하다면 여기에 추가
-        });
+        const response = await SignUpApi.postSignUp(formData);
         // API 응답 처리
         console.log("회원가입 성공:", response);
         // 원하는 작업 수행...
