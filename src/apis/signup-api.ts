@@ -21,7 +21,7 @@ const SignUpApi = {
   // 로그인 요청
   async postLogin(formData: FormData): Promise<any> {
     return await httpUtil.post({
-      url: "/member/login",
+      url: "/api/member/login",
       params: formData,
     });
   },
@@ -32,7 +32,7 @@ const SignUpApi = {
     formData.append("memberId", memberId);
 
     return await httpUtil.get({
-      url: "/member/selectCountMember",
+      url: "/api/member/selectCountMember",
       params: formData,
     });
   },
@@ -40,7 +40,7 @@ const SignUpApi = {
   // 회원가입 요청
   async postSignUp(formData: FormData): Promise<any> {
     return await httpUtil.post({
-      url: "/member/addMember",
+      url: "/api/member/addMember",
       params: formData,
     });
   },
