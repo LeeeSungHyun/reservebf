@@ -134,13 +134,11 @@ const SignUpContainer: React.FC = () => {
       try {
         // API 호출
         const response = await SignUpApi.postSignUp({
-          params: {
-            name: name,
-            memberId: id,
-            password: password,
-            phone: phoneNumber,
-            team: affiliation,
-          },
+          name: name,
+          memberId: id,
+          password: password,
+          phone: phoneNumber,
+          team: affiliation,
         });
         // API 응답 처리
         console.log("회원가입 성공:", response);

@@ -38,10 +38,8 @@ const SignInContainer: React.FC = () => {
       try {
         // API 호출
         const response = await SignUpApi.postLogin({
-          params: {
-            memberId: id,
-            password: password,
-          },
+          memberId: id,
+          password: password,
         });
         console.log("로그인 성공:", response);
         alert("로그인 성공");
