@@ -23,9 +23,9 @@ const SignUpApi = {
     memberId: string;
     password: string;
   }): Promise<any> {
-    return await httpUtil.post({
+    return await httpUtil.get({
       url: "/api/member/login",
-      data: { memberId: params.memberId, password: params.password },
+      params: { username: params.memberId, password: params.password },
     });
   },
 
