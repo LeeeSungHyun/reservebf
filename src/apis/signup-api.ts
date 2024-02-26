@@ -28,12 +28,9 @@ const SignUpApi = {
 
   // 회원 조회(count)
   async getUser(memberId: string): Promise<any> {
-    const formData = new FormData();
-    formData.append("memberId", memberId);
-
     return await httpUtil.get({
       url: "/api/member/selectCountMember",
-      params: formData,
+      params: { memberId: memberId },
     });
   },
 
