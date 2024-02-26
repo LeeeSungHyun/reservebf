@@ -35,13 +35,14 @@ const SignInContainer: React.FC = () => {
     // 페이지 리로드 방지
     event.preventDefault();
     if (areFieldsNotBlank()) {
-      const formData = new FormData();
-      formData.append("memberId", id);
-      formData.append("password", password);
-
       try {
         // API 호출
-        const response = await SignUpApi.postLogin(formData);
+        const response = await SignUpApi.postLogin({
+          params: {
+            memberId: id,
+            password: password,
+          },
+        });
         console.log("로그인 성공:", response);
         alert("로그인 성공");
       } catch (error) {

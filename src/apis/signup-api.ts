@@ -19,10 +19,14 @@ interface SignUpRequest {
 
 const SignUpApi = {
   // 로그인 요청
-  async postLogin(formData: FormData): Promise<any> {
+  async postLogin(params: {
+    params?: { memberId: string; password: string };
+    memberId?: any;
+    password?: any;
+  }): Promise<any> {
     return await httpUtil.post({
       url: "/api/member/login",
-      params: formData,
+      data: { memberId: params.memberId, password: params.password },
     });
   },
 
@@ -35,10 +39,29 @@ const SignUpApi = {
   },
 
   // 회원가입 요청
-  async postSignUp(formData: FormData): Promise<any> {
+  async postSignUp(params: {
+    params?: {
+      name: string;
+      memberId: string;
+      password: string;
+      phone: string;
+      team: string;
+    };
+    name?: any;
+    memberId?: any;
+    password?: any;
+    phone?: any;
+    team?: any;
+  }): Promise<any> {
     return await httpUtil.post({
       url: "/api/member/addMember",
-      params: formData,
+      data: {
+        name: params.name,
+        memberId: params.memberId,
+        password: params.password,
+        phone: params.phone,
+        team: params.team,
+      },
     });
   },
 
