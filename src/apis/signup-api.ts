@@ -45,8 +45,6 @@ const SignUpApi = {
     phone: string;
     team: string;
   }): Promise<any> {
-    alert(params.memberId);
-    debugger;
     return await httpUtil.post({
       url: "/api/member/addMember",
       data: {
