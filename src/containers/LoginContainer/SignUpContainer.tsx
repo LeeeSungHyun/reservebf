@@ -109,7 +109,7 @@ const SignUpContainer: React.FC = () => {
         console.log(id);
         const response = await SignUpApi.getUser(id);
 
-        if (response.data.length > 0) {
+        if (response.data.data !== 0) {
           setIdCheck(false);
           alert("아이디가 존재합니다.");
         } else {
