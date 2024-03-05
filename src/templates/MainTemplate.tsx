@@ -10,6 +10,7 @@ import {
   Typography,
 } from "@mui/material";
 import { Link } from "react-router-dom";
+import CommonAppBar from "../commons/CommonAppBar";
 
 interface MainTemplateProps {
   children: React.ReactNode;
@@ -22,34 +23,7 @@ const MainTemplate: React.FC<MainTemplateProps> = ({
 }) => {
   return (
     <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="fixed" elevation={0} color="primary">
-        <Toolbar sx={{ justifyContent: "space-between" }}>
-          <Typography
-            variant="h6"
-            component="div"
-            sx={{ flexGrow: 1, textAlign: "left" }}
-          >
-            예약 서비스
-          </Typography>
-          <ButtonGroup variant="text" color="inherit">
-            <Button>Menu 1</Button>
-            <Button>Menu 2</Button>
-            <Button>Menu 3</Button>
-            <Button
-              component={Link}
-              to="/SignIn"
-              sx={{
-                color: "white",
-                borderColor: "white",
-              }}
-            >
-              Login
-            </Button>
-          </ButtonGroup>
-        </Toolbar>
-      </AppBar>
-
-      {/* Main Content */}
+      <CommonAppBar />
       <Container maxWidth="lg" sx={{ mt: 12 }}>
         <Grid container spacing={4}>
           <Grid item xs={12}>

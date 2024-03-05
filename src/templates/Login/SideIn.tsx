@@ -14,6 +14,7 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import OkModal from "../../commons/modals/OkModal";
+import CommonAppBar from "../../commons/CommonAppBar";
 
 function Copyright(props: any) {
   return (
@@ -55,6 +56,7 @@ export default function SignIn(props: {
 
   return (
     <ThemeProvider theme={defaultTheme}>
+      <CommonAppBar />
       <Container component="main" maxWidth="xs">
         <CssBaseline />
         <Box

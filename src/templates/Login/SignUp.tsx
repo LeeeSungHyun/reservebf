@@ -13,6 +13,7 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { Link as RouterLink } from "react-router-dom";
 import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
 import OkModal from "../../commons/modals/OkModal";
+import CommonAppBar from "../../commons/CommonAppBar";
 
 function Copyright(props: any) {
   return (
@@ -92,6 +93,7 @@ export default function SignUp(props: {
 
   return (
     <ThemeProvider theme={defaultTheme}>
+      <CommonAppBar />
       <Container component="main" maxWidth="xs">
         <CssBaseline />
         <Box
