@@ -1,4 +1,6 @@
+import { Box, Button, Grid, Typography } from "@mui/material";
 import React, { useState } from "react";
+import CommonAppBar from "../commons/CommonAppBar";
 
 // 방 정보 타입 정의
 interface Room {
@@ -8,60 +10,95 @@ interface Room {
 }
 
 // 방 정보 데이터
-const roomsData: { [key: number]: Room[] } = {
-  2: [
+const roomsData: { [key: string]: Room[] } = {
+  B2: [{ id: 1, name: "본당", description: "지하 2층에 위치한 본당입니다." }],
+  B1: [
     { id: 1, name: "Room 201", description: "This is Room 201 description" },
     { id: 2, name: "Room 202", description: "This is Room 202 description" },
     { id: 3, name: "Room 203", description: "This is Room 203 description" },
     { id: 4, name: "Room 204", description: "This is Room 204 description" },
     { id: 5, name: "Room 205", description: "This is Room 205 description" },
   ],
-  3: [
+  "1": [
+    { id: 1, name: "Room 201", description: "This is Room 201 description" },
+    { id: 2, name: "Room 202", description: "This is Room 202 description" },
+    { id: 3, name: "Room 203", description: "This is Room 203 description" },
+    { id: 4, name: "Room 204", description: "This is Room 204 description" },
+    { id: 5, name: "Room 205", description: "This is Room 205 description" },
+  ],
+  "2": [
+    { id: 1, name: "Room 201", description: "This is Room 201 description" },
+    { id: 2, name: "Room 202", description: "This is Room 202 description" },
+    { id: 3, name: "Room 203", description: "This is Room 203 description" },
+    { id: 4, name: "Room 204", description: "This is Room 204 description" },
+    { id: 5, name: "Room 205", description: "This is Room 205 description" },
+  ],
+  "3": [
+    { id: 1, name: "Room 201", description: "This is Room 201 description" },
+    { id: 2, name: "Room 202", description: "This is Room 202 description" },
+    { id: 3, name: "Room 203", description: "This is Room 203 description" },
+    { id: 4, name: "Room 204", description: "This is Room 204 description" },
+    { id: 5, name: "Room 205", description: "This is Room 205 description" },
+  ],
+  "4": [
     { id: 6, name: "Room 301", description: "This is Room 301 description" },
     { id: 7, name: "Room 302", description: "This is Room 302 description" },
     { id: 8, name: "Room 303", description: "This is Room 303 description" },
     { id: 9, name: "Room 304", description: "This is Room 304 description" },
     { id: 10, name: "Room 305", description: "This is Room 305 description" },
   ],
-  // Add more floors if needed...
 };
 
 const RoomTemplate: React.FC = () => {
-  const [selectedFloor, setSelectedFloor] = useState<number>(2);
+  const [selectedFloor, setSelectedFloor] = useState<String>("1");
 
   // 층 선택 시 실행되는 함수
-  const handleFloorSelect = (floor: number) => {
+  const handleFloorSelect = (floor: string) => {
     setSelectedFloor(floor);
   };
 
   return (
-    <div>
-      {/* 방 사진 */}
-      <div style={{ textAlign: "center", marginBottom: "20px" }}>
-        {/* 방 사진을 넣는 부분 */}
-        <img src="" alt="Room" />
-      </div>
-
-      {/* 선택할 수 있는 층마다의 버튼 */}
-      <div style={{ textAlign: "center", marginBottom: "20px" }}>
-        {[2, 3, 4].map((floor) => (
-          <button key={floor} onClick={() => handleFloorSelect(floor)}>
-            {`Floor ${floor}`}
-          </button>
+    <Box sx={{ flexGrow: 1, padding: "100px" }}>
+      <CommonAppBar />
+      <Grid
+        container
+        justifyContent="center"
+        spacing={2}
+        sx={{ marginBottom: "20px" }}
+      >
+        {["B2", "B1", "1", "2", "3", "4"].map((floor) => (
+          <Grid item key={floor}>
+            <Button
+              variant={selectedFloor === floor ? "contained" : "outlined"}
+              onClick={() => handleFloorSelect(floor)}
+            >
+              {`${floor}층`}
+            </Button>
+          </Grid>
         ))}
-      </div>
+      </Grid>
 
       {/* 선택된 층에 따른 방 목록 */}
-      <div>
-        {roomsData[selectedFloor] &&
-          roomsData[selectedFloor].map((room) => (
-            <div key={room.id} style={{ marginBottom: "10px" }}>
-              <h3>{room.name}</h3>
-              <p>{room.description}</p>
-            </div>
+      <Grid container spacing={2}>
+        {roomsData[selectedFloor.toString()] &&
+          roomsData[selectedFloor.toString()].map((room) => (
+            <Grid item xs={12} key={room.id}>
+              <Box
+                sx={{
+                  padding: "20px",
+                  border: "1px solid #ccc",
+                  borderRadius: "5px",
+                }}
+              >
+                <Typography variant="h6" sx={{ marginBottom: "10px" }}>
+                  {room.name}
+                </Typography>
+                <Typography>{room.description}</Typography>
+              </Box>
+            </Grid>
           ))}
-      </div>
-    </div>
+      </Grid>
+    </Box>
   );
 };
 
