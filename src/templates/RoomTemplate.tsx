@@ -1,6 +1,7 @@
 import { Box, Button, Grid, Typography } from "@mui/material";
 import React, { useState } from "react";
 import CommonAppBar from "../commons/CommonAppBar";
+import RoomPlaceholderImage from "../assets/room-placeholder.jpg"; // Placeholder 이미지 import
 
 // 방 정보 타입 정의
 interface Room {
@@ -58,7 +59,7 @@ const RoomTemplate: React.FC = () => {
   };
 
   return (
-    <Box sx={{ flexGrow: 1, padding: "100px" }}>
+    <Box sx={{ flexGrow: 1, padding: "70px" }}>
       <CommonAppBar />
       <Grid
         container
@@ -90,6 +91,16 @@ const RoomTemplate: React.FC = () => {
                   borderRadius: "5px",
                 }}
               >
+                <img
+                  //   src={RoomPlaceholderImage}
+                  alt="Room"
+                  style={{
+                    width: "100%",
+                    height: "200px",
+                    objectFit: "cover",
+                    marginBottom: "10px",
+                  }}
+                />
                 <Typography variant="h6" sx={{ marginBottom: "10px" }}>
                   {room.name}
                 </Typography>
